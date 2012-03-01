@@ -20,12 +20,12 @@ class Foo
  attr_accessor_with_history :baz
 end
 
-f = Foo.new
-f.bar = 1
-f.bar = 2
-puts f.bar_history.to_s
-f = Foo.new
-f.bar = 4
-f.baz = 5
-puts f.bar_history.to_s
-puts f.baz_history.to_s
+# f = Foo.new
+# f.bar = 1
+# f.bar = 2
+# puts f.bar_history.to_s
+# f = Foo.new
+# f.bar = 4
+# f.baz = 5
+# puts f.bar_history.to_s
+# puts f.baz_history.to_s
