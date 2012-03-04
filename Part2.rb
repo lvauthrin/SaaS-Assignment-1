@@ -18,21 +18,46 @@ end
 
 #puts rps_game_winner([ [ "Armando", "P" ], [ "Dave", "S" ] ]).to_s
 
-def rps_tournament_winner(tournament)
-  runningTournament = tournament.flatten(1)
-  while runningTournament.length > 1 
-    runningTournament = runningTournament.map { |game| puts game.to_s; rps_game_winner(game) }
+def rps_tournament_winner_inner(tournament)
+  tournament.map! do |g|
+    begin
+      if g.kind_of?(Array)
+        rps_game_winner(g)
+      else
+        g
+      end
+    rescue
+      rps_tournament_winner_inner(g)
+    end
   end
-  return runningTournament[0]
 end
 
-puts rps_tournament_winner([
-[
-[ ["Armando", "P"], ["Dave", "S"] ],
-[ ["Richard", "R"],  ["Michael", "S"] ],
-],
-[ 
-[ ["Allen", "S"], ["Omer", "P"] ],
-[ ["David E.", "R"], ["Richard X.", "P"] ]
-]
-])
+def rps_tournament_winner(tournament)
+  (Math.log(tournament.flatten.length / 2, 2)).to_i.times { rps_tournament_winner_inner(tournament) }
+  rps_game_winner(tournament)
+end
+
+# puts rps_tournament_winner(
+# [
+ # [
+  # [
+   # [ ["Armando", "P"], ["Dave", "S"] ],
+   # [ ["Richard", "R"],  ["Michael", "S"] ],
+  # ],
+  # [ 
+   # [ ["Allen", "S"], ["Omer", "P"] ],
+   # [ ["David E.", "R"], ["Richard X.", "P"] ]
+  # ]
+ # ],
+ # [
+  # [
+   # [ ["Armando", "P"], ["Dave", "S"] ],
+   # [ ["Richard", "R"],  ["Michael", "S"] ],
+  # ],
+  # [ 
+   # [ ["Allen", "S"], ["Omer", "P"] ],
+   # [ ["David E.", "R"], ["Richard X.", "P"] ]
+  # ]
+ # ] 
+# ]
+# )
